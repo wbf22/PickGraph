@@ -1,0 +1,40 @@
+
+Fix AnnotationProcessor
+- currently forces the spring context to reload when it's statically initialized
+
+
+Set up @PickEndpoint annotation
+ - set up annotation to expose rest endpoint and call resolver
+ - specify json format in annotation
+
+Schema Endpoint
+- set up endpoint in spring to get schema automatically
+
+
+Browser tool
+- field to edit in with autocomplete, headers and variables?
+- display of returned data
+
+
+Set up resolver to accept query
+ - return result map from: query, and args list
+
+
+
+
+
+
+##############################
+###### Completed
+##############################
+Set up resolver to scan files for @Pickgraph annotations
+ - scan files
+ - keep list of fields for each
+
+Set up resolver to resolve request map<String, Object>
+ - return result map from: request map, pickgraph object type, and args list
+
+Set up resolver to scan files for @PickgraphMapping annotations
+ - keep track of target class of mapping
+ - keep track method to invoke later
+

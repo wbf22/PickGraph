@@ -1,6 +1,6 @@
 package com.freedommuskrats;
 
-import com.freedommuskrats.testObjects.TestPickGraphObject;
+import com.freedommuskrats.annotations.testObjects.TestPickGraphObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +31,7 @@ class PickGraphTest {
         fields2.put("testPGO3", fields3);
         fields.put("testPGO2", fields2);
 
-        Map<String, Object> result = pickGraph.execute(fields, TestPickGraphObject.class, Map.of("junk", new TestPickGraphObject()));
+        Map<String, Object> result = pickGraph.execute(fields, TestPickGraphObject.class, Map.of("junk", 5));
 
         assertNotNull(result);
 

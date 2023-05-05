@@ -12,7 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @ContextConfiguration(classes = PickGraphAutoConfig.class)
@@ -25,9 +26,9 @@ class AnnotationProcessorTest {
 
     @Test
     void test_annotationProcessor_setup() {
-        annotationProcessor.setup();
+        annotationProcessor.setUp();
         List<PickGraphObjectData> objData = annotationProcessor.getObjectDatas();
-        PickGraphObjectData testObjData = objData.stream().filter(obj -> obj.getName().equals("com.freedommuskrats.testObjects.TestPickGraphObject")).findFirst().orElse(null);
+        PickGraphObjectData testObjData = objData.stream().filter(obj -> obj.getName().equals("com.freedommuskrats.annotations.testObjects.TestPickGraphObject")).findFirst().orElse(null);
 
         assertFalse(objData.isEmpty());
         assert testObjData != null;
@@ -35,11 +36,11 @@ class AnnotationProcessorTest {
         assertEquals("age", testObjData.getField("age").getName());
 
         Map<String, PickGraphObjectMapper> objMappings = annotationProcessor.getObjectMappings();
-        PickGraphObjectMapper testObjMapping = objMappings.get("com.freedommuskrats.testObjects.TestPickGraphObject");
+        PickGraphObjectMapper testObjMapping = objMappings.get("com.freedommuskrats.annotations.testObjects.TestPickGraphObject");
 
         assertFalse(objMappings.isEmpty());
         assert testObjMapping != null;
-        assertEquals("com.freedommuskrats.testObjects.TestPickGraphObject", testObjMapping.getTargetClassName());
+        assertEquals("com.freedommuskrats.annotations.testObjects.TestPickGraphObject", testObjMapping.getTargetClassName());
     }
 
 

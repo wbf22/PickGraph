@@ -1,4 +1,4 @@
-package com.freedommuskrats.testObjects;
+package com.freedommuskrats.annotations.testObjects;
 
 import com.freedommuskrats.annotations.PickGraphMapping;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ public class TestPickGraphObjectMapping {
 
 
     @PickGraphMapping
-    public TestPickGraphObject testMethod(TestPickGraphObject junk) {
+    public TestPickGraphObject testMethod(int junk) {
         return new TestPickGraphObject("fred", 10, null);
     }
 

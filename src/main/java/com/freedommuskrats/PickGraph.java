@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Component
 public class PickGraph {
 
@@ -17,20 +18,23 @@ public class PickGraph {
 
     private final ObjectMapper objectMapper;
 
-    private final AnnotationProcessor annotationProcessor;
+    private AnnotationProcessor annotationProcessor;
 
 
-    public PickGraph(PickGraphProperties properties, ObjectMapper objectMapper) {
+    public PickGraph(PickGraphProperties properties, ObjectMapper objectMapper, AnnotationProcessor annotationProcessor) {
         this.properties = properties;
         this.objectMapper = objectMapper;
-        this.annotationProcessor = new AnnotationProcessor();
+        this.annotationProcessor = annotationProcessor;
+    }
+
+    public Map<String, Object> fulfillRequest(Object requestObject, Class<?> pickGraphObjectTarget, Map<String, Object> args) {
+        Map<String, Object> objMap = objectMapper.convertValue(requestObject, Map.class);
+        return execute(objMap, pickGraphObjectTarget, args);
     }
 
     public Map<String, Object> execute(Map<String, Object> requestedFields, Class<?> pickGraphObjectTarget, Map<String, Object> args) {
         try {
-            if (!annotationProcessor.isIntialized()) {
-                annotationProcessor.setup();
-            }
+            annotationProcessor.setUp();
 
             PickGraphObjectMapper pickGraphObjectMapper =
                     annotationProcessor.getPickGraphObjectMapper(pickGraphObjectTarget.getName());

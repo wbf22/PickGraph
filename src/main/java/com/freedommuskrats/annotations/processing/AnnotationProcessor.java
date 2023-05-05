@@ -1,29 +1,44 @@
 package com.freedommuskrats.annotations.processing;
 
-import com.freedommuskrats.PickGraphAutoConfig;
 import com.freedommuskrats.annotations.PickGraphMapping;
 import com.freedommuskrats.annotations.PickGraphObject;
 import com.freedommuskrats.annotations.processing.data.PickGraphObjectData;
 import com.freedommuskrats.annotations.processing.data.PickGraphObjectMapper;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class AnnotationProcessor {
+
+@Component
+public class AnnotationProcessor{
 
     private List<PickGraphObjectData> objectDatas = new ArrayList<>();
     private Map<String, PickGraphObjectMapper> objectMappings = new HashMap<>();
-    private boolean intiialized = false;
+    private ApplicationContext applicationContext;
 
+    public AnnotationProcessor(ApplicationContext context) {
+        this.applicationContext = context;
+    }
 
-    public void setup() {
-        try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext()) {
-            applicationContext.register(PickGraphAutoConfig.class);
-            applicationContext.refresh();
-            scanClasses(applicationContext);
-            intiialized = true;
+    private boolean initialized = false;
+    public void setUp() {
+        if (!initialized) {
+            String[] beanNames = applicationContext.getBeanDefinitionNames();
+            for (String beanName : beanNames) {
+                if (applicationContext.containsBeanDefinition(beanName)) {
+                    Object bean = applicationContext.getBean(beanName);
+                    String beanClassName = bean.getClass().getName();
+                    checkClassForAnnotations(beanClassName, bean);
+                }
+            }
+            initialized = true;
         }
     }
 
@@ -76,7 +91,6 @@ public class AnnotationProcessor {
         return objectMappings;
     }
 
-    public boolean isIntialized() {
-        return intiialized;
-    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.freedommuskrats.testObjects;
+package com.freedommuskrats.annotations.testObjects;
 
 import com.freedommuskrats.annotations.PickGraphObject;
 

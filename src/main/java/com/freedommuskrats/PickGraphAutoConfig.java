@@ -2,7 +2,6 @@ package com.freedommuskrats;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.freedommuskrats.annotations.processing.AnnotationProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,7 +26,7 @@ public class PickGraphAutoConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public PickGraph myService() {
+    public PickGraph myService(AnnotationProcessor annotationProcessor) {
         ObjectMapper mapper = new ObjectMapper();
         if (properties.getJsonFormat().equals(PickGraphProperties.SNAKE_CASE)) {
             mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
@@ -35,11 +34,6 @@ public class PickGraphAutoConfig {
             mapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
         }
 
-        return new PickGraph(properties, mapper);
-    }
-
-    @Bean
-    public AnnotationProcessor annotationProcessor() {
-        return new AnnotationProcessor();
+        return new PickGraph(properties, mapper, annotationProcessor);
     }
 }
