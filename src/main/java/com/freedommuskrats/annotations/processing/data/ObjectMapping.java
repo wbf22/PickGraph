@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
 
-public class PickGraphObjectMapper {
+public class ObjectMapping {
 
     private String targetClassName;
     private Method method;
@@ -18,10 +18,8 @@ public class PickGraphObjectMapper {
     private Map<String, String> childTargetClassNames;
     private Class<?> targetClass;
 
-    private ObjectMapper objectMapper;
 
-
-    public PickGraphObjectMapper(String targetClassName, Method method, Object beanInstance, Map<String, String> childTargetClassNames, Class<?> targetClass) {
+    public ObjectMapping(String targetClassName, Method method, Object beanInstance, Map<String, String> childTargetClassNames, Class<?> targetClass) {
         this.targetClassName = targetClassName;
         this.method = method;
         this.beanInstance = beanInstance;
@@ -29,7 +27,7 @@ public class PickGraphObjectMapper {
         this.targetClass = targetClass;
     }
 
-    public static PickGraphObjectMapper build(
+    public static ObjectMapping build(
             String mappingClass,
             String mappingMethodName,
             Class<?> targetClass,
@@ -53,7 +51,7 @@ public class PickGraphObjectMapper {
             }
         }
 
-        return new PickGraphObjectMapper(targetClassName, method, beanInstance, childTargetClassNames, targetClass);
+        return new ObjectMapping(targetClassName, method, beanInstance, childTargetClassNames, targetClass);
     }
 
     public Object invokeMappingMethod(Map<String, Object> args) {
@@ -61,14 +59,16 @@ public class PickGraphObjectMapper {
             List<Object> argsList = new ArrayList<>();
             for (Parameter p : method.getParameters()) {
                 if (args.containsKey(p.getName())) {
-                    argsList.add(args.get(p.getName()));
+                    Object value = args.get(p.getName());
+                    if (p.getType() == value)
+                        argsList.add(value);
+                    else
+                        argsList.add(convert(value, p.getType()));
                 }
             }
 
             return method.invoke(beanInstance, argsList.toArray());
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new PickGraphException("Internal PickGraph error calling mapping method '" + method.getName() + "'\n" + e.getMessage());
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | IllegalAccessException | InvocationTargetException e) {
             StringBuilder message = new StringBuilder("Internal PickGraph error calling @PickGraphMapping method '"
                     + method.getName() + "'.\n\t Method expected types: \n\t\t");
             Arrays.stream(method.getParameterTypes()).sequential().forEach(type -> message.append(type + "\n\t\t"));
@@ -76,9 +76,27 @@ public class PickGraphObjectMapper {
             args.forEach((key, value) -> {
                 message.append(key + ":" + value.getClass().getName() + "\n\t\t");
             });
-            message.append("\n\t You're probably missing an argument in your call to PickGraph, have a duplicate argument name, or the wrong arguement name.\n\t");
+            message.append("\n\t You're probably missing an argument in your call to PickGraph, have a duplicate argument name, or the wrong argument name or type.\n\t");
             message.append(" Check your @PickGraphMapping methods or your @PickEndpoints or your calls of Pickgraph.fulfillRequest(...)\n\n");
             throw new PickGraphException(message + e.getMessage());
+        }
+    }
+
+    private Object convert(Object value, Class<?> type) {
+        if (type == String.class) {
+            return value.toString();
+        } else if (type == Integer.class || type == int.class) {
+            return Integer.parseInt(value.toString());
+        } else if (type == Long.class || type == long.class) {
+            return Long.parseLong(value.toString());
+        } else if (type == Float.class || type == float.class) {
+            return Float.parseFloat(value.toString());
+        } else if (type == Double.class || type == double.class) {
+            return Double.parseDouble(value.toString());
+        } else if (type == Boolean.class || type == boolean.class) {
+            return Boolean.parseBoolean(value.toString());
+        } else {
+            throw new PickGraphException("PickGraph couldn't convert " + type.getName() + " to " + value.getClass().getName() + ".");
         }
     }
 
@@ -98,7 +116,8 @@ public class PickGraphObjectMapper {
         return childTargetClassNames;
     }
 
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public Class<?> getTargetClass() {
+        return targetClass;
     }
+
 }

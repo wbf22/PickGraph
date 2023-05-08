@@ -5,6 +5,7 @@ import com.freedommuskrats.annotations.PickGraphObject;
 @PickGraphObject
 public class TestPGO2 {
     private String name;
+    private String lastName;
     private String description;
     private TestPGO3 testPGO3;
 
@@ -19,6 +20,10 @@ public class TestPGO2 {
 
     public String getName() {
         return name;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getDescription() {

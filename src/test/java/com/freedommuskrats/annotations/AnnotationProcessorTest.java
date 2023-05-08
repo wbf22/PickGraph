@@ -1,9 +1,9 @@
 package com.freedommuskrats.annotations;
 
-import com.freedommuskrats.PickGraphAutoConfig;
+import com.freedommuskrats.config.PickGraphAutoConfig;
 import com.freedommuskrats.annotations.processing.AnnotationProcessor;
-import com.freedommuskrats.annotations.processing.data.PickGraphObjectData;
-import com.freedommuskrats.annotations.processing.data.PickGraphObjectMapper;
+import com.freedommuskrats.annotations.processing.data.ObjectData;
+import com.freedommuskrats.annotations.processing.data.ObjectMapping;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,29 +27,20 @@ class AnnotationProcessorTest {
     @Test
     void test_annotationProcessor_setup() {
         annotationProcessor.setUp();
-        List<PickGraphObjectData> objData = annotationProcessor.getObjectDatas();
-        PickGraphObjectData testObjData = objData.stream().filter(obj -> obj.getName().equals("com.freedommuskrats.annotations.testObjects.TestPickGraphObject")).findFirst().orElse(null);
+        List<ObjectData> objData = annotationProcessor.getObjectDatas();
+        ObjectData testObjData = objData.stream().filter(obj -> obj.getName().equals("com.freedommuskrats.annotations.testObjects.TestPGO1")).findFirst().orElse(null);
 
         assertFalse(objData.isEmpty());
         assert testObjData != null;
         assertEquals("name", testObjData.getField("name").getName());
         assertEquals("age", testObjData.getField("age").getName());
 
-        Map<String, PickGraphObjectMapper> objMappings = annotationProcessor.getObjectMappings();
-        PickGraphObjectMapper testObjMapping = objMappings.get("com.freedommuskrats.annotations.testObjects.TestPickGraphObject");
+        Map<String, ObjectMapping> objMappings = annotationProcessor.getObjectMappings();
+        ObjectMapping testObjMapping = objMappings.get("com.freedommuskrats.annotations.testObjects.TestPGO1");
 
         assertFalse(objMappings.isEmpty());
         assert testObjMapping != null;
-        assertEquals("com.freedommuskrats.annotations.testObjects.TestPickGraphObject", testObjMapping.getTargetClassName());
-    }
-
-
-    @Test
-    void test_annotationProcessor_setup_badMappingReturnType() {
-//        assertThrows(PickGraphException.class, () -> {
-//            annotationProcesser.setup();
-//        });
-
+        assertEquals("com.freedommuskrats.annotations.testObjects.TestPGO1", testObjMapping.getTargetClassName());
     }
 
 }

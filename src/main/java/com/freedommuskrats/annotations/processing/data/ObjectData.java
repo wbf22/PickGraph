@@ -4,21 +4,21 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PickGraphObjectData {
+public class ObjectData {
 
 
-    public PickGraphObjectData(String name) {
+    public ObjectData(String name) {
         this.name = name;
     }
 
     private String name;
-    private Map<String, PickGraphObjectField> fields = new HashMap<>();
+    private Map<String, ObjectField> fields = new HashMap<>();
 
-    public static PickGraphObjectData build(Class<?> beanClass, String beanClassName) {
-        PickGraphObjectData data = new PickGraphObjectData(beanClassName);
+    public static ObjectData build(Class<?> beanClass, String beanClassName) {
+        ObjectData data = new ObjectData(beanClassName);
         Field[] fields = beanClass.getDeclaredFields();
         for (Field field : fields) {
-            data.addField(field.getName(), new PickGraphObjectField(field.getName()));
+            data.addField(field.getName(), new ObjectField(field.getName()));
         }
         return data;
     }
@@ -32,10 +32,10 @@ public class PickGraphObjectData {
         this.name = name;
     }
 
-    public PickGraphObjectField getField(String name) {
+    public ObjectField getField(String name) {
         return fields.get(name);
     }
-    public void addField(String name, PickGraphObjectField field) {
+    public void addField(String name, ObjectField field) {
         fields.put(name, field);
     }
 }

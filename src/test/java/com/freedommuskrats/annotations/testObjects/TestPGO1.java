@@ -3,15 +3,15 @@ package com.freedommuskrats.annotations.testObjects;
 import com.freedommuskrats.annotations.PickGraphObject;
 
 @PickGraphObject
-public class TestPickGraphObject {
+public class TestPGO1 {
     private String name;
     private Integer age;
     private TestPGO2 testPGO2;
 
-    public TestPickGraphObject() {
+    public TestPGO1() {
     }
 
-    public TestPickGraphObject(String name, Integer age, TestPGO2 testPGO2) {
+    public TestPGO1(String name, Integer age, TestPGO2 testPGO2) {
         this.name = name;
         this.age = age;
         this.testPGO2 = testPGO2;

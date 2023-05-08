@@ -16,8 +16,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Component
 public @interface PickGraphObject {
-
-
+    String name() default "";
     public static final ObjectMapper mapper = new ObjectMapper();
 
     boolean prettyPrint() default false;

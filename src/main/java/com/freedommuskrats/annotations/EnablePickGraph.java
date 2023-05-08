@@ -1,6 +1,6 @@
 package com.freedommuskrats.annotations;
 
-import com.freedommuskrats.PickGraphAutoConfig;
+import com.freedommuskrats.config.PickGraphAutoConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;

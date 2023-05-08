@@ -1,0 +1,46 @@
+type Query {
+    largePGO: LargePGO
+}
+
+type LargePGO {
+    x1: LargeChildPGO
+    x2: Int
+    x3: Float
+    x4: Int
+    x5: String
+    x6: String
+    x7: String
+    x8: String
+    x9: String
+    x10: String
+    x11: String
+    x12: String
+    x13: String
+    x14: String
+    x15: String
+    x16: String
+    x17: String
+    x18: String
+}
+
+
+type LargeChildPGO {
+    x1: Boolean
+    x2: Float
+    x3: Float
+    x4: Int
+    x5: String
+    x6: String
+    x7: String
+    x8: String
+    x9: String
+    x10: String
+    x11: String
+    x12: String
+    x13: String
+    x14: String
+    x15: String
+    x16: String
+    x17: String
+    x18: String
+}

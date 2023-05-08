@@ -1,7 +1,6 @@
 package com.freedommuskrats.annotations.testObjects;
 
 import com.freedommuskrats.PickGraph;
-import com.freedommuskrats.annotations.PickEndpoint;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,6 @@ public class TestEndpoint {
     @PostMapping(path = "/pickgraph")
     public Map getTestObj(
             @RequestBody Map body) {
-        return pickGraph.fulfillRequest(body, TestPickGraphObject.class, Map.of("junk", 10));
+        return pickGraph.fulfillRequest(body, TestPGO1.class, Map.of("junk", 10));
     }
 }

@@ -1,23 +1,23 @@
 package com.freedommuskrats.annotations.processing.data;
 
-public class PickGraphObjectField {
+public class ObjectField {
 
-    private PickGraphObjectMapper mapper;
+    private ObjectMapping mapper;
 
     private String name;
 
     private Object value;
 
-    public PickGraphObjectField(String name) {
+    public ObjectField(String name) {
         this.name = name;
     }
 
 
-    public PickGraphObjectMapper getMapper() {
+    public ObjectMapping getMapper() {
         return mapper;
     }
 
-    public void setMapper(PickGraphObjectMapper mapper) {
+    public void setMapper(ObjectMapping mapper) {
         this.mapper = mapper;
     }
 

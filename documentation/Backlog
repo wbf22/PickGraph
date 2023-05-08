@@ -1,6 +1,5 @@
 
-Fix AnnotationProcessor
-- currently forces the spring context to reload when it's statically initialized
+
 
 
 Set up @PickEndpoint annotation
@@ -27,6 +26,10 @@ Set up resolver to accept query
 ##############################
 ###### Completed
 ##############################
+
+Fix AnnotationProcessor
+- currently forces the spring context to reload when it's statically initialized
+
 Set up resolver to scan files for @Pickgraph annotations
  - scan files
  - keep list of fields for each

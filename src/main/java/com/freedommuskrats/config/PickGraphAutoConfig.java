@@ -1,7 +1,8 @@
-package com.freedommuskrats;
+package com.freedommuskrats.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.freedommuskrats.PickGraph;
 import com.freedommuskrats.annotations.processing.AnnotationProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,8 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import static com.freedommuskrats.config.PickGraphProperties.getStrategy;
+
 @Configuration
-@ComponentScan
+@ComponentScan("com.freedommuskrats")
 @EnableConfigurationProperties(PickGraphProperties.class)
 public class PickGraphAutoConfig {
     private final PickGraphProperties properties;
@@ -26,14 +29,10 @@ public class PickGraphAutoConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public PickGraph myService(AnnotationProcessor annotationProcessor) {
+    public PickGraph pickGraph(AnnotationProcessor annotationProcessor) {
         ObjectMapper mapper = new ObjectMapper();
-        if (properties.getJsonFormat().equals(PickGraphProperties.SNAKE_CASE)) {
-            mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-        } else {
-            mapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
-        }
+        mapper.setPropertyNamingStrategy(getStrategy(properties.getJsonFormat()));
 
-        return new PickGraph(properties, mapper, annotationProcessor);
+        return new PickGraph(properties, annotationProcessor);
     }
 }
