@@ -1,39 +1,38 @@
 package com.freedommuskrats.annotations.processing.data;
 
 public class ObjectField {
+    private Class<?> type;
+    private Object defaultObject;
+    private String description;
 
-    private ObjectMapping mapper;
 
-    private String name;
-
-    private Object value;
-
-    public ObjectField(String name) {
-        this.name = name;
+    public ObjectField(Class<?> type, Object defaultObject, String description) {
+        this.type = type;
+        this.defaultObject = defaultObject;
+        this.description = description;
     }
 
-
-    public ObjectMapping getMapper() {
-        return mapper;
+    public Class<?> getType() {
+        return type;
     }
 
-    public void setMapper(ObjectMapping mapper) {
-        this.mapper = mapper;
+    public void setType(Class<?> type) {
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public Object getDefaultObject() {
+        return defaultObject;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDefaultObject(Object defaultObject) {
+        this.defaultObject = defaultObject;
     }
 
-    public Object getValue() {
-        return value;
+    public String getDescription() {
+        return description;
     }
 
-    public void setValue(Object value) {
-        this.value = value;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -22,15 +22,31 @@ public class TestPGO2 {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public TestPGO3 getTestPGO3() {
         return testPGO3;
+    }
+
+    public void setTestPGO3(TestPGO3 testPGO3) {
+        this.testPGO3 = testPGO3;
     }
 }

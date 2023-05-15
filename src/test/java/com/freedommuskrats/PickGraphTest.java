@@ -94,9 +94,28 @@ class PickGraphTest {
         Map<String, Object> lresult = pickGraph.execute(lfields, LargePGO.class,null, PickGraphProperties.SNAKE_CASE);
         lresult = pickGraph.execute(lfields, LargePGO.class,null, PickGraphProperties.SNAKE_CASE);
         lresult = pickGraph.execute(lfields, LargePGO.class,null, PickGraphProperties.SNAKE_CASE);
-        lt.stopAndPrint("time to execute2 large object");
+        lt.stopAndPrint("time to execute large object");
 
         assertNotNull(lresult);
+        assertEquals(2, lresult.get("x2"));
+        assertEquals(3.0, lresult.get("x3"));
+        assertEquals(4, lresult.get("x4"));
+        assertEquals("new Object()", lresult.get("x5"));
+        assertEquals("6", lresult.get("x6"));
+        assertEquals("6", lresult.get("x7"));
+        assertEquals("6", lresult.get("x8"));
+        assertEquals("6", lresult.get("x9"));
+        assertEquals("6", lresult.get("x10"));
+        assertEquals("6", lresult.get("x11"));
+        assertEquals("6", lresult.get("x12"));
+        assertEquals("6", lresult.get("x13"));
+        assertEquals("6", lresult.get("x14"));
+
+        Map<String, Object> largeChildPGO = (Map<String, Object>) lresult.get("x1");
+        assertEquals(true, largeChildPGO.get("x1"));
+        assertEquals(BigDecimal.valueOf(2), largeChildPGO.get("x2"));
+        assertEquals(3.0, largeChildPGO.get("x3"));
+        assertEquals(4, largeChildPGO.get("x4"));
     }
 
     @Test
@@ -202,5 +221,19 @@ class PickGraphTest {
         data = graphQl.execute(query);
         data = graphQl.execute(query);
         t.stopAndPrint("time to execute graphql large object");
+    }
+
+
+    @Test
+    void testStuff() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        class d {
+            public String x1 = "1";
+            public BigDecimal x2 = BigDecimal.valueOf(1.5);
+        }
+
+        System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(new d()));
+
     }
 }

@@ -1,13 +1,16 @@
 
 
 
-
-Set up @PickEndpoint annotation
- - set up annotation to expose rest endpoint and call resolver
- - specify json format in annotation
-
 Schema Endpoint
 - set up endpoint in spring to get schema automatically
+    + for mutations
+        = maybe full json of every type of object required
+    + for query
+        = possible fields you can request
+        = class name
+        = description tags
+
+Clean up JsonBuilder
 
 
 Browser tool
@@ -26,6 +29,10 @@ Set up resolver to accept query
 ##############################
 ###### Completed
 ##############################
+
+Set up @PickEndpoint annotation
+ - set up annotation to expose rest endpoint and call resolver
+ - specify json format in annotation
 
 Fix AnnotationProcessor
 - currently forces the spring context to reload when it's statically initialized

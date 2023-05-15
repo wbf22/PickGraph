@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ContextConfiguration(classes = PickGraphAutoConfig.class)
@@ -26,14 +26,13 @@ class AnnotationProcessorTest {
 
     @Test
     void test_annotationProcessor_setup() {
-        annotationProcessor.setUp();
         List<ObjectData> objData = annotationProcessor.getObjectDatas();
         ObjectData testObjData = objData.stream().filter(obj -> obj.getName().equals("com.freedommuskrats.annotations.testObjects.TestPGO1")).findFirst().orElse(null);
 
         assertFalse(objData.isEmpty());
         assert testObjData != null;
-        assertEquals("name", testObjData.getField("name").getName());
-        assertEquals("age", testObjData.getField("age").getName());
+        assertNotNull(testObjData.getField("name"));
+        assertNotNull(testObjData.getField("age"));
 
         Map<String, ObjectMapping> objMappings = annotationProcessor.getObjectMappings();
         ObjectMapping testObjMapping = objMappings.get("com.freedommuskrats.annotations.testObjects.TestPGO1");
@@ -42,5 +41,7 @@ class AnnotationProcessorTest {
         assert testObjMapping != null;
         assertEquals("com.freedommuskrats.annotations.testObjects.TestPGO1", testObjMapping.getTargetClassName());
     }
+
+
 
 }

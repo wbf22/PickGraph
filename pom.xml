@@ -16,7 +16,7 @@
   <packaging>jar</packaging>
 
   <properties>
-    <java.version>20</java.version>
+    <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -45,9 +45,6 @@
     </dependency>
 
 
-
-
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -67,7 +64,7 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-graphql</artifactId>
-      <scope>true</scope>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

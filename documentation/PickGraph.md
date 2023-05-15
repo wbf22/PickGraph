@@ -19,6 +19,86 @@
     + set up annotation to expose rest endpoint and call resolver
     + specify, snake case vs camel case
 
+
+
+# Schema and Query Syntax
+### Query
+Example Query
+```
+{
+    item {
+        name
+        stats {
+            type
+        }
+        compositionMap [primary, secondary] {
+            type
+        }
+    }
+}
+```
+Result
+```json
+{
+    "item": {
+        "name": "dirt ball",
+        "stats": [
+            {
+                "type": 100
+            },
+            {
+                "type": 4
+            }
+        ],
+        "compositionMap": {
+            "primary": {
+                "type": "dirt"
+            },
+            "secondary": {
+                "type": "clay"
+            }
+        } 
+    }
+}
+```
+The actual object in the service
+```json
+{
+    "item": {
+        "name": "dirt ball",
+        "description": "ball of dirt",
+        "stats": [
+            {
+                "name": "stickyness",
+                "type": 100
+            },
+            {
+                "name": "hardness",
+                "type": 4
+            }
+        ],
+        "compositionMap": {
+            "primary": {
+                "type": "dirt",
+                "hardness" : 1
+            },
+            "secondary": {
+                "type": "clay",
+                "hardness" : 4
+            },
+            "other": {
+               "type": "silt",
+               "hardness" : 1
+            }
+        } 
+    }
+}
+```
+
+### Put
+For the put you just send plain json. For the object above you'd just send that same json.
+
+
 # Browser tool
 + set up endpoint in spring to get schema automatically
 + field to edit in with autocomplete, headers and variables?

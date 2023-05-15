@@ -2,17 +2,21 @@ package com.freedommuskrats;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.freedommuskrats.annotations.PickGraphObject;
 import com.freedommuskrats.annotations.processing.AnnotationProcessor;
 import com.freedommuskrats.annotations.processing.data.ObjectMapping;
 import com.freedommuskrats.config.PickGraphProperties;
 import com.freedommuskrats.exception.PickGraphException;
+import com.freedommuskrats.util.Timer;
 import com.google.common.base.CaseFormat;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.freedommuskrats.util.Timer.start;
 
 
 @Component
@@ -50,6 +54,7 @@ public class PickGraph {
     public Map<String, Object> execute(Map<String, Object> requestedFields, Class<?> pickGraphObjectTarget, Map<String, Object> args, String jsonFormat) {
         try {
             CaseFormat caseFormat = properties.getCaseFormatOrProjectDefault(jsonFormat);
+            objectMapper.setPropertyNamingStrategy(properties.getStrategyOrProjectDefault(jsonFormat));
 
             ObjectMapping pickGraphObjectMapper =
                     annotationProcessor.getPickGraphObjectMapper(pickGraphObjectTarget.getName());
