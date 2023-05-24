@@ -4,7 +4,8 @@ import com.freedommuskrats.annotations.Schema.SchemaDescription;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.freedommuskrats.annotations.processing.data.JsonBuilder.*;
 
@@ -39,7 +40,7 @@ public class ObjectData {
         }
 
         data.setDefaultObject(
-                (isJavaType(beanClass))? resolveJavaClass(beanClass) : resolveNonBasicClass(beanClass)
+                (isJavaType(beanClass))? buildDefaultForJavaClass(beanClass) : buildDefaultForNonBasicClass(beanClass)
         );
         return data;
     }

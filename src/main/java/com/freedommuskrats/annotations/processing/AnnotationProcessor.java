@@ -1,13 +1,12 @@
 package com.freedommuskrats.annotations.processing;
 
-import com.freedommuskrats.annotations.Schema.IncludeInPickGraphSchema;
 import com.freedommuskrats.annotations.PickEndpoint;
 import com.freedommuskrats.annotations.PickGraphMapping;
 import com.freedommuskrats.annotations.PickGraphObject;
-import com.freedommuskrats.annotations.processing.data.CustomUserEndpoint;
-import com.freedommuskrats.annotations.processing.data.ObjectData;
-import com.freedommuskrats.annotations.processing.data.ObjectMapping;
-import com.freedommuskrats.annotations.processing.data.UserEndpoint;
+import com.freedommuskrats.annotations.Schema.IncludeInPickGraphSchema;
+import com.freedommuskrats.annotations.processing.data.*;
+import com.freedommuskrats.config.PickGraphProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
@@ -23,14 +22,20 @@ import java.util.Map;
 @Component
 public class AnnotationProcessor implements ApplicationRunner {
 
-    private List<ObjectData> objectDatas = new ArrayList<>();
+    private Map<Class<?>, ObjectData> objectDatas = new HashMap<>();
     private Map<String, ObjectMapping> objectMappings = new HashMap<>();
     private Map<String, UserEndpoint> userEndpoints = new HashMap<>();
-    private Map<String, UserEndpoint> userCustomEndpoints = new HashMap<>();
+    private Map<String, CustomUserEndpoint> userCustomEndpoints = new HashMap<>();
+    private List<Endpoint> schema = new ArrayList<>();
+
     private ApplicationContext applicationContext;
 
-    public AnnotationProcessor(ApplicationContext context) {
+
+    private String basePickGraphPath;
+
+    public AnnotationProcessor(ApplicationContext context, PickGraphProperties properties) {
         this.applicationContext = context;
+        this.basePickGraphPath = properties.getEndpointPath();
     }
 
     private boolean initialized = false;
@@ -47,6 +52,7 @@ public class AnnotationProcessor implements ApplicationRunner {
                 }
             }
             initialized = true;
+            buildSchema();
         }
     }
 
@@ -54,7 +60,7 @@ public class AnnotationProcessor implements ApplicationRunner {
         try {
             Class<?> beanClass = Class.forName(beanClassName);
             if (beanClass.isAnnotationPresent(PickGraphObject.class)) {
-                objectDatas.add(ObjectData.build(beanClass, beanClassName));
+                objectDatas.put(bean.getClass(), ObjectData.build(beanClass, beanClassName));
             }
 
             for (Method method : beanClass.getDeclaredMethods()) {
@@ -67,11 +73,12 @@ public class AnnotationProcessor implements ApplicationRunner {
                     );
                 }
                 if (method.isAnnotationPresent(PickEndpoint.class)) {
-                    UserEndpoint userEndpoint = UserEndpoint.build(method);
+                    UserEndpoint userEndpoint = UserEndpoint.build(method, basePickGraphPath);
                     userEndpoints.put(userEndpoint.getRequestTypeName(), userEndpoint);
                 }
                 if (method.isAnnotationPresent(IncludeInPickGraphSchema.class)) {
                     CustomUserEndpoint customUserEndpoint = CustomUserEndpoint.build(method);
+                    userCustomEndpoints.put(customUserEndpoint.getRequestTypeName(), customUserEndpoint);
                 }
             }
         } catch (ClassNotFoundException e) {
@@ -83,7 +90,7 @@ public class AnnotationProcessor implements ApplicationRunner {
         return objectMappings.get(className);
     }
 
-    public List<ObjectData> getObjectDatas() {
+    public Map<Class<?>, ObjectData> getObjectDatas() {
         return objectDatas;
     }
 
@@ -95,7 +102,21 @@ public class AnnotationProcessor implements ApplicationRunner {
         return userEndpoints;
     }
 
-    public void getSchema() {
 
+    public void buildSchema() {
+        List<Endpoint> newList = new ArrayList<>();
+        newList.addAll(userEndpoints.values().stream().toList());
+        newList.addAll(userCustomEndpoints.values().stream().toList());
+
+        for (Endpoint end : newList) {
+            end.setDefaultObject(
+                    objectDatas.get(end.getRequestType()).getDefaultObject()
+            );
+            schema.add(end);
+        }
+    }
+
+    public List<Endpoint> getSchema() {
+        return schema;
     }
 }

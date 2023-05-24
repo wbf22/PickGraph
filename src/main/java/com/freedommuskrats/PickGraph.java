@@ -2,21 +2,19 @@ package com.freedommuskrats;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.freedommuskrats.annotations.PickGraphObject;
 import com.freedommuskrats.annotations.processing.AnnotationProcessor;
+import com.freedommuskrats.annotations.processing.data.Endpoint;
 import com.freedommuskrats.annotations.processing.data.ObjectMapping;
 import com.freedommuskrats.config.PickGraphProperties;
 import com.freedommuskrats.exception.PickGraphException;
-import com.freedommuskrats.util.Timer;
 import com.google.common.base.CaseFormat;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static com.freedommuskrats.util.Timer.start;
 
 
 @Component
@@ -120,7 +118,7 @@ public class PickGraph {
         return result;
     }
 
-    public static Map<String, Object> convertMapCase(Map<String, Object> map, CaseFormat newFormat) {
+    private static Map<String, Object> convertMapCase(Map<String, Object> map, CaseFormat newFormat) {
         if (map == null) {
             return null;
         }
@@ -144,4 +142,9 @@ public class PickGraph {
         return newMap;
     }
 
+
+
+    public List<Endpoint> getSchema() {
+        return annotationProcessor.getSchema();
+    }
 }

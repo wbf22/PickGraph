@@ -1,17 +1,17 @@
 package com.freedommuskrats.annotations;
 
-import com.freedommuskrats.config.PickGraphAutoConfig;
 import com.freedommuskrats.annotations.processing.AnnotationProcessor;
 import com.freedommuskrats.annotations.processing.data.ObjectData;
 import com.freedommuskrats.annotations.processing.data.ObjectMapping;
+import com.freedommuskrats.config.PickGraphAutoConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,8 +26,9 @@ class AnnotationProcessorTest {
 
     @Test
     void test_annotationProcessor_setup() {
-        List<ObjectData> objData = annotationProcessor.getObjectDatas();
-        ObjectData testObjData = objData.stream().filter(obj -> obj.getName().equals("com.freedommuskrats.annotations.testObjects.TestPGO1")).findFirst().orElse(null);
+        Map<Class<?>, ObjectData> objData = annotationProcessor.getObjectDatas();
+        Optional<Map.Entry<Class<?>, ObjectData>> dataEntry = objData.entrySet().stream().filter(entry -> entry.getValue().getName().equals("com.freedommuskrats.annotations.testObjects.TestPGO1")).findFirst();
+        ObjectData testObjData = dataEntry.map(Map.Entry::getValue).orElse(null);
 
         assertFalse(objData.isEmpty());
         assert testObjData != null;

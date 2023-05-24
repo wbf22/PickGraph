@@ -1,8 +1,8 @@
 package com.freedommuskrats.annotations.testObjects;
 
-import com.freedommuskrats.config.PickGraphProperties;
 import com.freedommuskrats.annotations.PickEndpoint;
 import com.freedommuskrats.annotations.PickGraphMapping;
+import com.freedommuskrats.config.PickGraphProperties;
 import org.springframework.stereotype.Component;
 
 @Component

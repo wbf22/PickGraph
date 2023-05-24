@@ -20,7 +20,7 @@ public class TestEndpoint {
     }
 
     @PostMapping(path = "/pickgraph")
-    @IncludeInPickGraphSchema
+    @IncludeInPickGraphSchema(returnPickGraphObject = TestPGO1.class)
     public Map getTestObj(
             @RequestBody Map body) {
         return pickGraph.fulfillRequest(body, TestPGO1.class, Map.of("junk", 10));

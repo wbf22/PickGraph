@@ -1,19 +1,12 @@
 package com.freedommuskrats.annotations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.freedommuskrats.annotations.testObjects.TestPGO1;
-import com.freedommuskrats.annotations.testObjects.TestPGO2;
-import com.freedommuskrats.annotations.testObjects.TestPGO3;
-import com.freedommuskrats.config.PickGraphAutoConfig;
 import com.freedommuskrats.annotations.testObjects.TestEndpoint;
-import com.google.common.base.CaseFormat;
+import com.freedommuskrats.annotations.testObjects.TestPGO1;
+import com.freedommuskrats.config.PickGraphAutoConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,11 +16,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.freedommuskrats.PickGraph.convertMapCase;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

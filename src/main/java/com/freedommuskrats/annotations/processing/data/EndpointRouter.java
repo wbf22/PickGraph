@@ -3,7 +3,6 @@ package com.freedommuskrats.annotations.processing.data;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freedommuskrats.PickGraph;
-import com.freedommuskrats.util.Timer;
 import com.freedommuskrats.annotations.processing.AnnotationProcessor;
 import com.freedommuskrats.config.PickGraphProperties;
 import com.freedommuskrats.exception.PickGraphException;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.freedommuskrats.util.Timer.start;
 
 @RestController
 public class EndpointRouter {
@@ -31,7 +28,7 @@ public class EndpointRouter {
         this.properties = properties;
     }
 
-    @PostMapping(path = "${pick.graph.endpoint-path}/{requestType}")
+    @PostMapping(path = "${pick.graph.endpoint.path}/{requestType}")
     public ResponseEntity<?> userEndpoint(
             @RequestBody Map body,
             @RequestHeader Map headers,

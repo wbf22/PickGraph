@@ -3,11 +3,7 @@ package com.freedommuskrats.annotations.testObjects;
 import com.freedommuskrats.annotations.PickEndpoint;
 import com.freedommuskrats.annotations.PickGraphMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.math.BigDecimal;
 
 @Controller
 public class LPGOMapping {

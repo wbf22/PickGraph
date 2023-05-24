@@ -21,7 +21,7 @@
 
 
 
-# Schema and Query Syntax
+# Query and Schema Syntax
 ### Query
 Example Query
 ```
@@ -94,6 +94,11 @@ The actual object in the service
     }
 }
 ```
+
+### Schema
+The schema for graphql is just the default json for each object defined by the schema mappings. 
+
+
 
 ### Put
 For the put you just send plain json. For the object above you'd just send that same json.
